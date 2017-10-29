@@ -27,7 +27,7 @@ Transfer completed.
 #DZ_EventType_Maxfilesexceeded  
 Number of files transferred simultaneously exceeding the allowed limit (MaxFiles).
 
-## Description 
+## Installation. 
 When creating your web application, it is important to enter an application name followed by the. php extension.
 Example: yourapp.php  
 
