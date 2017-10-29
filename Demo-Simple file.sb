@@ -1,0 +1,88 @@
+﻿IncludeFile "UploadGadget.sbi"
+
+Declare Start()
+Declare ImageView()
+Declare OnLoadImage(Type, Filename$, ObjectId)
+Declare OnUpload(Event.i, FileName.s, Size.i, Message.s)
+Declare OnCloseWindow()
+
+Global HostName.s
+
+UseModule DropZone
+
+Start()
+
+Procedure Start()  
+  !v_hostname = document.location.hostname;
+  
+  OpenWindow(0, 0, 0, 440, 400, "UpLoadGadget - Simple file", #PB_Window_ScreenCentered)
+  UploadGadget(0, 20, 20, 400, 200, "Click or drag your image file to this area (Max 1 Mbits)", "*.png,*.jpg", @onUpload(), 1, 1) 
+  ProgressBarGadget(1, 20, 230, 400, 24, 0, 100)
+  TextGadget(#PB_Any, 20, 274, 100, 22, "View your upload")
+  HyperLinkGadget(2, 125, 270, 400, 22, "", RGB(0, 0, 255))
+  SetGadgetText(2, "When ready ....")
+    
+  BindGadgetEvent(2, @ImageView())
+  
+  ; Load image after Upload : Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @OnLoadImage())
+EndProcedure
+
+;View image 
+Procedure ImageView()
+  Protected Link.s = "uploads/" + GetGadgetText(2)
+  
+  LoadImage(1, Link)  
+EndProcedure
+
+Procedure OnLoadImage(Type, Filename$, ObjectId)
+  Protected Width  = ImageWidth(ObjectId)
+  Protected Height = ImageHeight(ObjectId)
+  Protected Window = OpenWindow(#PB_Any, 0, 0, Width, Height, Filename$, #PB_Window_SystemMenu | #PB_Window_ScreenCentered, WindowID(0))
+  
+  ImageGadget(#PB_Any, 0, 0, Width, Height, ImageID(ObjectId))
+  
+  BindEvent(#PB_Event_CloseWindow, @OnCloseWindow(), Window)
+EndProcedure
+
+; UpLoadGadget() events
+Procedure OnUpload(Event.i, FileName.s, Size.i, Message.s)
+  Select Event
+      
+    Case #DZ_EventType_Add
+      Debug FileName + " (" + Str(Size) + ") Add"
+      SetGadgetState(1, 0)
+        
+    Case #DZ_EventType_Progress
+      Debug FileName + " " + Message
+      SetGadgetState(1, Val(Message))
+      
+    Case #DZ_EventType_Success
+      SetGadgetText(2, FileName)
+      Debug FileName + " End of processing"
+      
+    Case #DZ_EventType_Error
+      Debug FileName + " Error " + Message
+      
+    Case #DZ_EventType_Maxfilesexceeded
+      Debug FileName + " Error " + Message
+      
+  EndSelect  
+EndProcedure
+
+Procedure OnCloseWindow()
+  CloseWindow(EventWindow())
+EndProcedure
+; IDE Options = SpiderBasic 2.10 (Windows - x86)
+; CursorPosition = 30
+; Folding = -
+; WebAppName = UpLoadGadget - Simple File
+; HtmlFilename = ..\..\www\Dropzone\uploadgadget.php
+; JavaScriptFilename = uploadgadget.js
+; JavaScriptPath = sb
+; CopyJavaScriptLibrary
+; WebAppEnableDebugger
+; iOSAppOrientation = 0
+; AndroidAppOrientation = 0
+; EnableXP
+; CompileSourceDirectory
