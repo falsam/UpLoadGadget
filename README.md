@@ -6,7 +6,7 @@ This gadget uses the JavaScript dropzone.js
 http://falsam.com/sbtest/uploadgadget.php
 
 ## Syntax
-Result = UploadGadget(Gadget, x, y, Width, Height, Prompt$, Pattern$="", CallBack=#False, MaxFiles=1, MaxFilesSize=2)
+Result = UploadGadget(Gadget, x, y, Width, Height, Prompt$, Pattern$="", _CallBack=#False_, _MaxFiles=1_, _MaxFilesSize=2_)
 
 ## Description
 Create a Upload gadget. This gadget provides drag’n’drop file uploads.
@@ -40,7 +40,7 @@ Copy the **dropzone.js** script to the installation folder of your web applicati
 
 ```
 OpenWindow(0, 0, 0, 440, 400, "Demo", #PB_Window_ScreenCentered)
-UploadGadget(0, 20, 20, 400, 200, "Click or drag your image file to this area (Max 1 Mbits)", "*.png,*.jpg", @onUpload(), 1, 1) 
+UploadGadget(0, 20, 20, 400, 200, "Drag your image file to this area", "*.png,*.jpg", @onUpload(), 1, 1) 
 
 ; UpLoadGadget() events
 Procedure OnUpload(Event.i, FileName.s, Size.i, Message.s)
