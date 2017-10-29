@@ -28,13 +28,40 @@ Transfer completed.
 Number of files transferred simultaneously exceeding the allowed limit (MaxFiles).
 
 ## Installation. 
-When creating your web application, it is important to enter an application name followed by the. php extension.
-Example: yourapp.php  
+When creating your web application, it is important to enter an application name followed by the **.php** extension.
+_Example_: **yourapp.php**  
 
-Copy the script php upload. php to the installation folder of your web application.
+Copy the **upload.php** script to the installation folder of your web application.
 
-Copy the dropzone. js script to the installation folder of your web application.
+Copy the **dropzone.js** script to the installation folder of your web application.
 
 
 ## Example
-   
+
+```
+OpenWindow(0, 0, 0, 440, 400, "Demo", #PB_Window_ScreenCentered)
+UploadGadget(0, 20, 20, 400, 200, "Click or drag your image file to this area (Max 1 Mbits)", "*.png,*.jpg", @onUpload(), 1, 1) 
+
+; UpLoadGadget() events
+Procedure OnUpload(Event.i, FileName.s, Size.i, Message.s)
+  Select Event
+      
+    Case #DZ_EventType_Add
+      Debug FileName + " (" + Str(Size) + ") Add"
+        
+    Case #DZ_EventType_Progress
+      Debug FileName + " " + Message
+      
+    Case #DZ_EventType_Success
+      Debug FileName + " End of processing"
+      
+    Case #DZ_EventType_Error
+      Debug FileName + " Error " + Message
+      
+    Case #DZ_EventType_Maxfilesexceeded
+      Debug FileName + " Error " + Message
+      
+  EndSelect  
+EndProcedure
+```
+
