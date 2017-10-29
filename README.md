@@ -9,7 +9,7 @@ http://falsam.com/sbtest/uploadgadget.php
 Result = UploadGadget(Gadget, x, y, Width, Height, Prompt$, Pattern$="", CallBack=#False, MaxFiles=1, MaxFilesSize=2)
 
 ## Description
-Create a Upload gadget. This gadget provides drag’n’drop file uploads.  
+Create a Upload gadget. This gadget provides drag’n’drop file uploads.
 
 ## Events
 #DZ_EventType_Add  
