@@ -1,0 +1,187 @@
+﻿EnableExplicit
+
+DeclareModule DropZone
+  
+  #DZ_EventType_Add = 1
+  #DZ_EventType_Progress = 2
+  #DZ_EventType_Error = 3
+  #DZ_EventType_Success = 4
+  #DZ_EventType_Maxfilesexceeded = 5
+  
+  Declare UploadGadget(Gadget, x, y, Width, Height, Prompt$, Pattern$ = "", CallBack = #False, MaxFiles = 1, MaxFilesSize = 2)
+EndDeclareModule  
+
+Module DropZone
+  
+  ;Private 
+  Structure NewDropZone
+    Gadget.i
+    x.i
+    y.i
+    Width.i
+    Height.i
+    Prompt.s
+    
+    AcceptedFiles.s
+    MaxFiles.i
+    MaxFilesize.i
+    
+    BackColor.s
+    
+    CallBack.i
+  EndStructure
+  Global DropZone.NewDropZone
+  
+  ;Load DropZone.js
+  Procedure UseDropeZone(CallBack)  
+    !require(["dropzone.js"], 
+    ! function() {  
+    !   v_callback()
+    ! }
+    !);
+  EndProcedure
+  
+  Procedure DropZoneInit()  
+    Protected MaxFiles = DropZone\MaxFiles
+    Protected MaxFilesize = DropZone\MaxFilesize
+    Protected AcceptedFiles.s = DropZone\AcceptedFiles 
+    Protected Prompt.s = DropZone\Prompt
+    Protected CallBack = DropZone\CallBack 
+    Protected BackColor.s = DropZone\BackColor
+    
+    ;DropZone Setup
+    !	Dropzone.options.fileUpload = {
+    
+    !	maxFiles: v_maxfiles,
+    ! maxFilesize: v_maxfilesize, 
+    ! acceptedFiles: v_acceptedfiles,
+    ! createImageThumbnails: false,
+    
+    ;Prompt
+    !	dictDefaultMessage: v_prompt,
+    
+    ;Events
+    !	init: function() {
+    
+    ;   #DZ_EventType_Add = 1 (When a file is added to the drop list)
+    !		this.on("addedfile", function(file) {   
+    !       v_callback(1, file.name, file.size, "Added file")
+    !		});
+    
+    !		this.on("maxFilesize", function(file) {
+    !			v_callback(3, file.name, file.size, "Max File Size")
+    !		});
+    
+    ;    #DZ_EventType_Maxfilesexceeded = 5
+    !		this.on("maxfilesexceeded", function(file) {
+    ;!			this.removeFile(this.files[0]);
+    !     v_callback(5, file.name, file.size, "Max files exceeded")
+    !		});
+    
+    ;   #DZ_EventType_Progress = 2
+    !		this.on("uploadprogress", function(file, progress, bytesSent) {
+    !     v_callback(2, file.name, file.size, progress.toString()) 
+    !		});
+    
+    
+    !		this.on("success", function(file, responseText) {
+    !     console.log("Success")
+    !     console.log(responseText)
+    !		});
+    
+    ;   #DZ_EventType_Success = 4
+    !		this.on("complete", function(file) {
+    !			this.removeFile(file)
+    !     v_callback(4, file.name, file.size, "Complete")
+    !		});
+    
+    ;   #DZ_EventType_Error = 3
+    !		this.on("error", function(file, errorMessage) {
+    !			this.removeFile(file)
+    !     v_callback(3, file.name, file.size, errorMessage)
+    !		});	
+        
+    !	} //End Init
+    ! };//End Dropzone option  
+    
+    ProcedureReturn DropZone\Gadget
+  EndProcedure
+  
+  Procedure DropZoneInsert()
+    Protected  Buffer.s 
+    
+    With DropZone
+      Buffer = "<form action='upload.php' enctype='multipart/form-Data' class='dropzone' id='file-upload'"
+      Buffer + "</form>" 
+      
+      ;Start Style
+      Buffer + "<style>"
+      
+      Buffer + ".dropzone {"
+      Buffer + "}" 
+      
+      Buffer + ".dz-message {"
+      Buffer + "  text-align: center;"  
+      Buffer + "  height:100%;"
+      Buffer + "  background-color: BurlyWood;"      
+      Buffer + "  color: white;"
+      Buffer + "  cursor: pointer;"
+      Buffer + "}"     
+      
+      Buffer + ".dz-clickable {"
+      Buffer + "  height:100%;"
+      Buffer + "}" 
+      
+      ;Hide preview
+      Buffer + ".dz-preview {"
+      Buffer + "  opacity: 0;"
+      Buffer + "}" 
+      
+      Buffer + "</style>"           
+      ;End Style
+      If \Gadget = #PB_Any 
+        \Gadget = TextGadget(#PB_Any, \x, \y, \Width, \height, Buffer, #PB_Text_Border)
+      Else
+        TextGadget(\Gadget, \x, \y, \Width, \height, Buffer, #PB_Text_Border)
+      EndIf
+    EndWith
+    
+    DropZoneInit()
+  EndProcedure  
+  
+  ;Public
+  Procedure UploadGadget(Gadget, x, y, Width, Height, Prompt$, Pattern$ = "", CallBack = #False, MaxFiles = 1, MaxFilesSize = 2)
+    With DropZone
+      \Gadget = Gadget
+      \x = x
+      \y = y
+      \Width = Width
+      \Height = Height
+      \Prompt = Prompt$
+      \AcceptedFiles = RemoveString(Pattern$, "*")
+      \MaxFiles = MaxFiles 
+      \MaxFilesize = MaxFilesSize
+      \CallBack = CallBack
+      
+      \BackColor = "BurlyWood"
+    EndWith
+    
+    UseDropeZone(@DropZoneInsert())
+  EndProcedure
+  
+  Procedure DropZone(maxFile, maxFilesize = 2)
+    With DropZone
+      \maxFiles = maxFiles
+      \maxFilesize = maxFilesize
+    EndWith
+    DropZoneInit()  
+  EndProcedure
+EndModule
+; IDE Options = SpiderBasic 2.10 (Windows - x86)
+; CursorPosition = 33
+; FirstLine = 33
+; Folding = --
+; iOSAppOrientation = 0
+; AndroidAppOrientation = 0
+; EnableXP
+; CompileSourceDirectory
