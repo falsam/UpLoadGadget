@@ -12,28 +12,28 @@ Result = UploadGadget(Gadget, x, y, Width, Height, Prompt$, Pattern$="", _CallBa
 Create a Upload gadget. This gadget provides drag’n’drop file uploads.
 
 ## Events
-#DZ_EventType_Add  
+**#DZ_EventType_Add**  
 An element is added on the DropZone.   
  
-#DZ_EventType_Progress  
+**#DZ_EventType_Progress**  
 A file is being transferred to the server.  
 
-#DZ_EventType_Error 
+**#DZ_EventType_Error** 
 An error has just occurred. (_Error type of file, file too big, etc..._)  
 
-#DZ_EventType_Success  
+**#DZ_EventType_Success**  
 Transfer completed.  
     
-#DZ_EventType_Maxfilesexceeded  
+**#DZ_EventType_Maxfilesexceeded**  
 Number of files transferred simultaneously exceeding the allowed limit (MaxFiles).
 
 ## Installation. 
-When creating your web application, it is important to enter an application name followed by the **.php** extension.
+When creating your web application, it is important to enter an application name followed by the **.php** extension.  
 _Example_: **yourapp.php**  
 
-Copy the **upload.php** script to the installation folder of your web application.
+Copy the **upload.php** script to the installation folder of your web application.  
 
-Copy the **dropzone.js** script to the installation folder of your web application.
+Copy the **dropzone.js** script to the installation folder of your web application.  
 
 
 ## Example
