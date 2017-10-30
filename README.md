@@ -50,7 +50,7 @@ Procedure OnUpload(Event.i, FileName.s, Size.i, Message.s)
       Debug FileName + " (" + Str(Size) + ") Add"
         
     Case #DZ_EventType_Progress
-      Debug FileName + " " + Message
+      Debug FileName + " Upload Progress " + Message + "%"
       
     Case #DZ_EventType_Success
       Debug FileName + " End of processing"
