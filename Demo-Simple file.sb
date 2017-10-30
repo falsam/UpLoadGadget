@@ -1,5 +1,4 @@
-﻿
-IncludeFile "UploadGadget.sbi"
+﻿IncludeFile "UploadGadget.sbi"
 
 Declare Start()
 Declare ImageView()
@@ -37,11 +36,18 @@ Procedure ImageView()
 EndProcedure
 
 Procedure OnLoadImage(Type, Filename$, ObjectId)
-  Protected Width  = ImageWidth(ObjectId)
-  Protected Height = ImageHeight(ObjectId)
-  Protected Window = OpenWindow(#PB_Any, 0, 0, Width, Height, Filename$, #PB_Window_SystemMenu | #PB_Window_ScreenCentered, WindowID(0))
+  Protected Width   = ImageWidth(ObjectId)
+  Protected Height  = ImageHeight(ObjectId)
+  Protected scale.f = Width/512
+  Protected Window
   
-  ImageGadget(#PB_Any, 0, 0, Width, Height, ImageID(ObjectId))
+  If Scale < 1 
+    Scale = 1
+  EndIf 
+  
+  Window = OpenWindow(#PB_Any, 0, 0, Width/Scale, Height/scale, Filename$, #PB_Window_SystemMenu | #PB_Window_ScreenCentered, WindowID(0))
+  ResizeImage(ObjectId, Width/Scale, Height/Scale)
+  ImageGadget(#PB_Any, 0, 0, Width/scale, Height/Scale, ImageID(ObjectId))
   
   BindEvent(#PB_Event_CloseWindow, @OnCloseWindow(), Window)
 EndProcedure
@@ -75,8 +81,8 @@ Procedure OnCloseWindow()
   CloseWindow(EventWindow())
 EndProcedure
 ; IDE Options = SpiderBasic 2.10 (Windows - x86)
-; CursorPosition = 57
-; FirstLine = 16
+; CursorPosition = 48
+; FirstLine = 22
 ; Folding = -
 ; WebAppName = UpLoadGadget - Simple File
 ; HtmlFilename = ..\..\www\Dropzone\uploadgadget.php
