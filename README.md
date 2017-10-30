@@ -18,7 +18,7 @@ An element is added on the DropZone.
 **#DZ_EventType_Progress**  
 A file is being transferred to the server.  
 
-**#DZ_EventType_Error** 
+**#DZ_EventType_Error**  
 An error has just occurred. (_Error type of file, file too big, etc..._)  
 
 **#DZ_EventType_Success**  
@@ -39,7 +39,12 @@ Copy the **dropzone.js** script to the installation folder of your web applicati
 ## Example
 
 ```
-OpenWindow(0, 0, 0, 440, 400, "Demo", #PB_Window_ScreenCentered)
+IncludeFile "UploadGadget.sbi"
+
+Declare OnUpload(Event.i, FileName.s, Size.i, Message.s)
+
+UseModule DropZone
+OpenWindow(0, 0, 0, 440, 250, "Demo", #PB_Window_ScreenCentered)
 UploadGadget(0, 20, 20, 400, 200, "Drag your image file to this area", "*.png,*.jpg", @onUpload(), 1, 1) 
 
 ; UpLoadGadget() events
