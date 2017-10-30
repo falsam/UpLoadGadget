@@ -1,13 +1,22 @@
-﻿EnableExplicit
+﻿;UpLoadGadget.sbi by falsam  
+
+;Version     : 1.00
+
+;Create      : 28, October 2017 
+;Last update : 30, October 2017
+
+EnableExplicit
 
 DeclareModule DropZone
   
+  ;Events
   #DZ_EventType_Add = 1
   #DZ_EventType_Progress = 2
   #DZ_EventType_Error = 3
   #DZ_EventType_Success = 4
   #DZ_EventType_Maxfilesexceeded = 5
   
+  ;Syntaxe
   Declare UploadGadget(Gadget, x, y, Width, Height, Prompt$, Pattern$ = "", CallBack = #False, MaxFiles = 1, MaxFilesSize = 2)
 EndDeclareModule  
 
@@ -49,7 +58,7 @@ Module DropZone
     Protected CallBack = DropZone\CallBack 
     Protected BackColor.s = DropZone\BackColor
     
-    ;DropZone Setup
+    ; DropZone Setup
     !	Dropzone.options.fileUpload = {
     
     !	maxFiles: v_maxfiles,
@@ -57,10 +66,10 @@ Module DropZone
     ! acceptedFiles: v_acceptedfiles,
     ! createImageThumbnails: false,
     
-    ;Prompt
+    ; Prompt
     !	dictDefaultMessage: v_prompt,
     
-    ;Events
+    ; Events
     !	init: function() {
     
     ;   #DZ_EventType_Add = 1 (When a file is added to the drop list)
@@ -178,8 +187,8 @@ Module DropZone
   EndProcedure
 EndModule
 ; IDE Options = SpiderBasic 2.10 (Windows - x86)
-; CursorPosition = 33
-; FirstLine = 33
+; CursorPosition = 187
+; FirstLine = 139
 ; Folding = --
 ; iOSAppOrientation = 0
 ; AndroidAppOrientation = 0
